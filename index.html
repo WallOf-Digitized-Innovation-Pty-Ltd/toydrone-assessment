@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="./styling.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        .body{width:100vw;}
+        .board{
+            width:300px;height:300px;background: url(./f9a18f13f33213541a0f9b7c37b85bd0.jpeg);
+            background-size: cover;background-repeat:no-repeat;
+            opacity: 1;
+            padding:0;margin:0;
+            border-radius: 10px;
+            border: 1px solid orange;
+        }
+        .board > .drone{
+            opacity:1;
+            /* transform-origin: 0% 0%; */
+            background: yellow;width:30px;height:30px;position:absolute;
+            /* animation: rotate90deg 3.5s infinite; */
+        }
+
+        .drone > span{
+
+        }
+
+        .radar{
+            min-width:30px;
+            min-height:30px;
+            border-radius:100%;
+            background-color: purple;
+            visibility:hidden;
+        }
+        .controller{
+            gap: 5px;
+            text-align: center;
+            justify-content: center;
+            margin:auto 0;
+            width:300px;height:130px;display:flex;flex-flow:row;flex-wrap: wrap;
+        }
+        .controller button{
+            width:95px;
+        }
+        .controller > button > img{height:20px;height:20px;}
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">Toy Drone</a>
+    </nav>
+    <div class="container">
+        <div class="row" style="justify-content: center;">
+            <div class="col-sm-12 col-md-6" style="background-color: transparent;justify-content: center;justify-items: cente;">
+                <div class="board" id="board">
+                    <div class="drone" id="drone">
+                        <span>
+                            <img src="./drone.png" width="30" height="30" id="icon">
+                        </span>
+                    </div>
+                    <div class="circle" id="explosion" style="visibility: collapse;">
+                        <p class="text">Click me</p>
+                      </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <label>Press 'I' for information/instructions</label>
+                <div id="test" style="margin-bottom:20px">
+                </div>
+
+                <label for="">Feel free to use the remote controller:</label>
+                <div class="controller">
+                    <button type="button" class="btn btn-primary" onclick="action('Shift')">
+                        <img src="./rotate.png" alt="">
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="action('ArrowUp')"><img src="./upload.png" alt=""></button>
+                    <button type="button" class="btn btn-primary" onclick="action('i')"><img src="./info.png" alt=""></button>
+                    <button type="button" class="btn btn-primary" onclick="action('ArrowLeft')"><img src="./left-arrow.png" alt=""></button>
+                    <button type="button" class="btn btn-primary" onclick="action('ArrowDown')"><img src="./arrow-down.png" alt=""></button>
+                    <button type="button" class="btn btn-primary" onclick="action('ArrowRight')"><img src="./right-arrow.png" alt=""></button>
+                </div>
+                <button type="button" id="btnReport" class="btn btn-light" style="width:298px;margin-top:5px;" onclick="action('report')">
+                    <img src="./alert.gif" height="50" alt="">
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <audio src="./sonar-ping-95840.mp3" id="soundplayer"></audio>
+    <div class="container">
+        <img src="https://igamingidol.com/wp-content/uploads/2022/08/Games-Global-Logo.jpg" alt="" height="50" srcset="">
+    </div>
+
+    <div class="modal" tabindex="-1" id="successModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Mission Details</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p>Major,</p>
+              <p>Thank you so much for locating the submarine. OceanGate will never forget you.</p>
+              <img src="./rescue-boat.png" height="50"/>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <div class="modal" tabindex="-1" id="infoModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Mission Complete</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p>Major,</p>
+              <p>We need your assistance. We have lost track of our brothers and we need to try locate them. <br>
+              Your mission is scouting the ocean using our Toy Drone. </p>
+              <p style="color:red">Remember, the louder the 'beep' sound gets, the nearer you are to the submarine AND THIS WILL ALLOW YOU TO ALERT US!</p>
+              <img height="50" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/OceanGate_logo.svg/600px-OceanGate_logo.svg.png?20230623024753" alt="" srcset="">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+    </div>
+
+
+    <script src="./logic.js"></script>
+</body>
+</html>
