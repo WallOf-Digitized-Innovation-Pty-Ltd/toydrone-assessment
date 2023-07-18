@@ -1,6 +1,7 @@
 # toydrone-assessment
 
-URL: https://toydrone-fabaf.web.app/
+URL: https://assignment-ibrahim.000webhostapp.com/
+URL: https://toydrone-fabaf.web.app/ (Failed to execute)
 
 Welcome to StormCraft application!
 NB: SOUND IS NEEDED TO LOCATE THE SUBMARINE!
